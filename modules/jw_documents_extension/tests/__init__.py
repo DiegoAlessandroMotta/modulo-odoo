@@ -1,1 +1,1 @@
-from . import test_documents_document
+from . import test_jw_documento

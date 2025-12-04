@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de formulario para jw.documento -->
+    <record id="view_jw_documento_form" model="ir.ui.view">
+        <field name="name">jw.documento.form</field>
+        <field name="model">jw.documento</field>
+        <field name="arch" type="xml">
+            <form string="Documento Digital">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nombre" class="oe_inline" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="informacion_basica" string="Información Básica">
+                            <field name="tipo_documento" />
+                            <field name="descripcion" />
+                        </group>
+                        <group name="archivo" string="Archivo Digital">
+                            <field name="archivo" filename="nombre_archivo" widget="binary" />
+                            <field name="nombre_archivo" />
+                            <field name="tipo_archivo" readonly="1" />
+                            <field name="tamaño_archivo" readonly="1" />
+                        </group>
+                    </group>
+                    <group name="ubicacion_responsable" string="Ubicación y Responsable">
+                        <field name="ubicacion_fisica" />
+                        <field name="responsable_custodia" />
+                    </group>
+                    <group name="auditoria" string="Auditoría" collapsible="1">
+                        <field name="fecha_creacion" readonly="1" />
+                        <field name="usuario_creacion" readonly="1" />
+                        <field name="fecha_modificacion" readonly="1" />
+                        <field name="usuario_modificacion" readonly="1" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de lista para jw.documento -->
+    <record id="view_jw_documento_tree" model="ir.ui.view">
+        <field name="name">jw.documento.tree</field>
+        <field name="model">jw.documento</field>
+        <field name="arch" type="xml">
+            <tree string="Documentos" decoration-success="tipo_documento == 'oficial'" 
+                  decoration-info="tipo_documento == 'administrativo'"
+                  decoration-warning="tipo_documento == 'estudiantil'">
+                <field name="nombre" />
+                <field name="tipo_documento" />
+                <field name="tipo_archivo" />
+                <field name="tamaño_archivo" />
+                <field name="responsable_custodia" />
+                <field name="fecha_creacion" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para jw.documento -->
+    <record id="view_jw_documento_search" model="ir.ui.view">
+        <field name="name">jw.documento.search</field>
+        <field name="model">jw.documento</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Documentos">
+                <field name="nombre" string="Nombre" />
+                <field name="descripcion" />
+                <field name="ubicacion_fisica" />
+                <field name="responsable_custodia" />
+                <separator />
+                <filter name="filter_administrativo" string="Administrativos"
+                    domain="[('tipo_documento', '=', 'administrativo')]" />
+                <filter name="filter_estudiantil" string="Estudiantiles"
+                    domain="[('tipo_documento', '=', 'estudiantil')]" />
+                <filter name="filter_oficial" string="Oficiales"
+                    domain="[('tipo_documento', '=', 'oficial')]" />
+                <separator />
+                <filter name="filter_hoy" string="Creados Hoy"
+                    domain="[('fecha_creacion', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]" />
+                <filter name="filter_esta_semana" string="Esta Semana"
+                    domain="[('fecha_creacion', '&gt;=', (context_today() - relativedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]" />
+                <separator />
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_by_tipo" string="Tipo"
+                        context="{'group_by': 'tipo_documento'}" />
+                    <filter name="group_by_responsable" string="Responsable"
+                        context="{'group_by': 'responsable_custodia'}" />
+                    <filter name="group_by_archivo" string="Tipo de Archivo"
+                        context="{'group_by': 'tipo_archivo'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>
+

@@ -19,8 +19,8 @@
     'license': 'LGPL-3',
     'depends': [
         'base',
-        'documents',
         'mail',
+        'jw_documents_extension',
     ],
     'data': [
         'security/ir.model.access.csv',

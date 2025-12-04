@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menús para el módulo jw_documents_extension -->
+    
+    <!-- Menú principal -->
+    <menuitem id="menu_jw_documentos_root" name="Gestión Documentaria"
+        web_icon="jw_documents_extension,static/description/icon.png" />
+    
+    <!-- Acción para todos los documentos -->
+    <record id="action_jw_documento_view" model="ir.actions.act_window">
+        <field name="name">Documentos</field>
+        <field name="res_model">jw.documento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_jw_documento_search" />
+    </record>
+    
+    <!-- Menú: Todos los documentos -->
+    <menuitem id="menu_jw_documentos_todos" name="Todos los Documentos"
+        parent="menu_jw_documentos_root" action="action_jw_documento_view"
+        sequence="10" />
+    
+    <!-- Acción: Documentos administrativos -->
+    <record id="action_jw_documento_administrativos" model="ir.actions.act_window">
+        <field name="name">Documentos Administrativos</field>
+        <field name="res_model">jw.documento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo_documento', '=', 'administrativo')]</field>
+        <field name="search_view_id" ref="view_jw_documento_search" />
+    </record>
+    
+    <!-- Menú: Documentos administrativos -->
+    <menuitem id="menu_jw_documentos_administrativos" name="Documentos Administrativos"
+        parent="menu_jw_documentos_root" action="action_jw_documento_administrativos"
+        sequence="20" />
+    
+    <!-- Acción: Documentos estudiantiles -->
+    <record id="action_jw_documento_estudiantiles" model="ir.actions.act_window">
+        <field name="name">Documentos Estudiantiles</field>
+        <field name="res_model">jw.documento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo_documento', '=', 'estudiantil')]</field>
+        <field name="search_view_id" ref="view_jw_documento_search" />
+    </record>
+    
+    <!-- Menú: Documentos estudiantiles -->
+    <menuitem id="menu_jw_documentos_estudiantiles" name="Documentos Estudiantiles"
+        parent="menu_jw_documentos_root" action="action_jw_documento_estudiantiles"
+        sequence="30" />
+    
+    <!-- Acción: Documentos oficiales -->
+    <record id="action_jw_documento_oficiales" model="ir.actions.act_window">
+        <field name="name">Documentos Oficiales</field>
+        <field name="res_model">jw.documento</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('tipo_documento', '=', 'oficial')]</field>
+        <field name="search_view_id" ref="view_jw_documento_search" />
+    </record>
+    
+    <!-- Menú: Documentos oficiales -->
+    <menuitem id="menu_jw_documentos_oficiales" name="Documentos Oficiales"
+        parent="menu_jw_documentos_root" action="action_jw_documento_oficiales"
+        sequence="40" />
+</odoo>

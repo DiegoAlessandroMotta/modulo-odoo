@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_documents_document_user,documents.document user,documents.model_documents_document,documents.group_documents_user,1,1,1,0
-access_documents_document_manager,documents.document manager,documents.model_documents_document,documents.group_documents_manager,1,1,1,1
+access_jw_documento_usuario,jw.documento user,jw_documents_extension.model_jw_documento,jw_documents_extension.group_jw_documentos_usuarios,1,1,1,0
+access_jw_documento_administrador,jw.documento administrator,jw_documents_extension.model_jw_documento,jw_documents_extension.group_jw_documentos_administrador,1,1,1,1

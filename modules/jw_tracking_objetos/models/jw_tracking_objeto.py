@@ -63,7 +63,7 @@ class JWTrackingObjeto(models.Model):
     
     # Documento asociado
     documento_asociado = fields.Many2one(
-        comodel_name='documents.document',
+        comodel_name='jw.documento',
         string='Documento Asociado',
         help='Documento relacionado (acta, comprobante de entrega, etc.)',
         track_visibility='onchange'

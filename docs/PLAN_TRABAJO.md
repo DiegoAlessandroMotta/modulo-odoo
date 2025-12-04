@@ -1,5 +1,19 @@
 # **Plan de Trabajo – Módulos de Gestión Documentaria y Tracking Físico**
 
+## **NOTA IMPORTANTE - REFACTORIZACIÓN COMPLETADA**
+
+**Fecha:** 4 de Diciembre 2024
+
+Los módulos han sido refactorizados para ser **completamente independientes del módulo nativo `documents`** de Odoo (que no está disponible en Community Edition).
+
+### Cambios Realizados:
+- ✅ `jw_documents_extension` - Ahora implementa su propio modelo `jw.documento` con CRUD completo
+- ✅ `jw_tracking_objetos` - Actualizado para usar `jw.documento` en lugar de `documents.document`
+- ✅ Ambos módulos solo requieren: `base` y `mail`
+- ✅ Compatible con **Odoo 17 Community Edition**
+
+---
+
 ## **Fase 1: Preparación y Configuración del Entorno**
 
 - [x] Configurar repositorio Git y estructura base del proyecto

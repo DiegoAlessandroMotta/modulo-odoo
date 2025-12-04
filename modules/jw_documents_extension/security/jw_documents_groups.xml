@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Definir grupos de seguridad para el módulo -->
+    
+    <record id="group_jw_documentos_usuarios" model="res.groups">
+        <field name="name">Usuarios de Documentos</field>
+        <field name="comment">Usuarios que pueden visualizar y crear documentos</field>
+    </record>
+    
+    <record id="group_jw_documentos_administrador" model="res.groups">
+        <field name="name">Administrador de Documentos</field>
+        <field name="comment">Administradores con acceso completo a la gestión de documentos</field>
+    </record>
+</odoo>

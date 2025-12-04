@@ -1,5 +1,6 @@
 from odoo.tests.common import TransactionCase
 from odoo.exceptions import ValidationError
+import base64
 
 
 class JWTrackingObjetoTestCase(TransactionCase):
@@ -9,7 +10,7 @@ class JWTrackingObjetoTestCase(TransactionCase):
         super().setUp()
         self.partner_model = self.env['res.partner']
         self.objeto_model = self.env['jw.tracking.objeto']
-        self.document_model = self.env['documents.document']
+        self.documento_model = self.env['jw.documento']
         
         # Crear partners para usar en los tests
         self.persona1 = self.partner_model.create({
@@ -21,6 +22,9 @@ class JWTrackingObjetoTestCase(TransactionCase):
             'name': 'María López',
             'is_company': False,
         })
+        
+        # Crear contenido para documentos en base64
+        self.contenido_prueba = base64.b64encode(b'Contenido de prueba')
     
     def test_create_objeto_basico(self):
         """Verificar que se puede crear un objeto básico"""
@@ -130,9 +134,11 @@ class JWTrackingObjetoTestCase(TransactionCase):
         self.assertIsNotNone(objeto.fecha_registro)
     
     def test_objeto_con_documento(self):
-        """Verificar que se puede asociar un documento"""
-        documento = self.document_model.create({
-            'name': 'Acta de entrega',
+        """Verificar que se puede asociar un documento jw.documento"""
+        documento = self.documento_model.create({
+            'nombre': 'Acta de entrega',
+            'archivo': self.contenido_prueba,
+            'nombre_archivo': 'acta.pdf',
         })
         
         objeto = self.objeto_model.create({
@@ -150,3 +156,4 @@ class JWTrackingObjetoTestCase(TransactionCase):
         
         perdidos = self.objeto_model.get_objetos_por_estado('perdido')
         self.assertEqual(len(perdidos), 2)
+
