@@ -17,11 +17,8 @@
     'license': 'LGPL-3',
     'depends': [
         'base',
-        'mail',
     ],
     'data': [
-        'security/jw_documents_groups.xml',
-        'security/ir.model.access.csv',
         'views/jw_documento_views.xml',
         'views/jw_documento_menus.xml',
     ],

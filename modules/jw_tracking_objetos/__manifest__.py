@@ -19,12 +19,9 @@
     'license': 'LGPL-3',
     'depends': [
         'base',
-        'mail',
         'jw_documents_extension',
     ],
     'data': [
-        'security/ir.model.access.csv',
-        'security/jw_tracking_objetos_groups.xml',
         'views/jw_tracking_objeto_views.xml',
         'views/jw_tracking_objeto_menus.xml',
     ],

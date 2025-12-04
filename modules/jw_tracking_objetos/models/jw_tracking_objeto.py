@@ -7,7 +7,6 @@ class JWTrackingObjeto(models.Model):
     
     _name = 'jw.tracking.objeto'
     _description = 'Tracking de Objetos'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'fecha_registro desc'
     
     # Estados
@@ -34,15 +33,13 @@ class JWTrackingObjeto(models.Model):
         selection=ESTADO_SELECTION,
         string='Estado',
         default='encontrado',
-        required=True,
-        track_visibility='always'
+        required=True
     )
     
     # Ubicación y contacto
     ubicacion_actual = fields.Char(
         string='Ubicación Actual',
-        help='Donde se encuentra actualmente el objeto',
-        track_visibility='onchange'
+        help='Donde se encuentra actualmente el objeto'
     )
     
     persona_registro = fields.Many2one(
@@ -111,16 +108,7 @@ class JWTrackingObjeto(models.Model):
         return record
     
     def write(self, vals):
-        """Sobrescribir write para auditoría y cambio de estado"""
-        # Registrar cambio de estado en el chatter
-        if 'estado' in vals and vals['estado'] != self.estado:
-            old_state = dict(self.ESTADO_SELECTION).get(self.estado, self.estado)
-            new_state = dict(self.ESTADO_SELECTION).get(vals['estado'], vals['estado'])
-            self.message_post(
-                body=f'Estado cambiado de <b>{old_state}</b> a <b>{new_state}</b>',
-                message_type='notification'
-            )
-        
+        """Sobrescribir write para auditoría"""
         # Actualizar auditoría
         vals['fecha_modificacion'] = fields.Datetime.now()
         vals['usuario_modificacion'] = self.env.user.id

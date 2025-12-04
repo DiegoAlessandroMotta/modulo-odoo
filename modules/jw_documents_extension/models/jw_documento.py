@@ -8,7 +8,6 @@ class JWDocumento(models.Model):
     
     _name = 'jw.documento'
     _description = 'Documento Digital'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'fecha_creacion desc'
     
     # Tipos de documento
@@ -34,8 +33,7 @@ class JWDocumento(models.Model):
     tipo_documento = fields.Selection(
         selection=DOCUMENTO_TYPE,
         string='Tipo de Documento',
-        help='Clasificación del documento',
-        track_visibility='onchange'
+        help='Clasificación del documento'
     )
     
     # Archivo binario
@@ -66,8 +64,7 @@ class JWDocumento(models.Model):
     # Ubicación y responsable
     ubicacion_fisica = fields.Char(
         string='Ubicación Física',
-        help='Ubicación del archivo o copia original del documento',
-        track_visibility='onchange'
+        help='Ubicación del archivo o copia original del documento'
     )
     
     responsable_custodia = fields.Many2one(
