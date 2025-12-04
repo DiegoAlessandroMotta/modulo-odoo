@@ -63,14 +63,28 @@ class JWTrackingObjeto(models.Model):
         help='Documento relacionado (acta, comprobante de entrega, etc.)'
     )
     
-    # Fotografías
-    attachment_ids = fields.Many2many(
+    # Imagen principal
+    imagen = fields.Binary(
+        string='Imagen Principal',
+        help='Imagen principal del objeto',
+        attachment=True
+    )
+    
+    # Fotografías adicionales
+    fotografia_ids = fields.Many2many(
         comodel_name='ir.attachment',
         relation='jw_tracking_objeto_attachment_rel',
-        column1='tracking_id',
+        column1='objeto_id',
         column2='attachment_id',
         string='Fotografías',
         help='Fotografías del objeto'
+    )
+    
+    # Contador de fotos
+    num_fotografias = fields.Integer(
+        string='Número de Fotografías',
+        compute='_compute_num_fotografias',
+        store=True
     )
     
     # Campos de auditoría
@@ -97,6 +111,13 @@ class JWTrackingObjeto(models.Model):
         string='Último Usuario que Modificó',
         readonly=True
     )
+    
+    # Métodos computados
+    @api.depends('fotografia_ids')
+    def _compute_num_fotografias(self):
+        """Calcular el número de fotografías"""
+        for record in self:
+            record.num_fotografias = len(record.fotografia_ids)
     
     # Métodos
     @api.model

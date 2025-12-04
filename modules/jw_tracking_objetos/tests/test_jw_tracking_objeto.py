@@ -156,4 +156,71 @@ class JWTrackingObjetoTestCase(TransactionCase):
         
         perdidos = self.objeto_model.get_objetos_por_estado('perdido')
         self.assertEqual(len(perdidos), 2)
+    
+    def test_objeto_con_imagen_principal(self):
+        """Verificar que se puede agregar una imagen principal al objeto"""
+        # Crear una imagen de prueba en base64 (1x1 pixel PNG)
+        imagen_base64 = base64.b64encode(
+            b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01'
+            b'\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc\x00\x01'
+            b'\x00\x00\x05\x00\x01\r\n-\xb4\x00\x00\x00\x00IEND\xaeB`\x82'
+        )
+        
+        objeto = self.objeto_model.create({
+            'nombre': 'Objeto con imagen',
+            'imagen': imagen_base64,
+        })
+        
+        self.assertIsNotNone(objeto.imagen)
+        self.assertEqual(objeto.imagen, imagen_base64)
+    
+    def test_objeto_con_fotografias(self):
+        """Verificar que se pueden agregar fotografías al objeto"""
+        # Crear attachments primero
+        attachment_model = self.env['ir.attachment']
+        foto1 = attachment_model.create({
+            'name': 'foto1.jpg',
+            'datas': base64.b64encode(b'imagen1'),
+            'mimetype': 'image/jpeg',
+        })
+        
+        foto2 = attachment_model.create({
+            'name': 'foto2.jpg',
+            'datas': base64.b64encode(b'imagen2'),
+            'mimetype': 'image/jpeg',
+        })
+        
+        # Crear objeto con fotografías
+        objeto = self.objeto_model.create({
+            'nombre': 'Objeto con fotos',
+            'fotografia_ids': [(6, 0, [foto1.id, foto2.id])],
+        })
+        
+        # Verificar que el objeto tiene las fotografías
+        self.assertEqual(len(objeto.fotografia_ids), 2)
+        self.assertEqual(objeto.num_fotografias, 2)
+        self.assertIn(foto1, objeto.fotografia_ids)
+        self.assertIn(foto2, objeto.fotografia_ids)
+    
+    def test_contador_fotografias(self):
+        """Verificar que el contador de fotografías se calcula correctamente"""
+        objeto = self.objeto_model.create({
+            'nombre': 'Objeto para contar fotos',
+        })
+        
+        # Inicialmente sin fotos
+        self.assertEqual(objeto.num_fotografias, 0)
+        
+        # Agregar una foto usando Many2many
+        foto = self.env['ir.attachment'].create({
+            'name': 'foto.jpg',
+            'datas': base64.b64encode(b'imagen'),
+            'mimetype': 'image/jpeg',
+        })
+        
+        objeto.write({
+            'fotografia_ids': [(4, foto.id)],
+        })
+        
+        self.assertEqual(objeto.num_fotografias, 1)
 

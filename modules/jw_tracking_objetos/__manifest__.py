@@ -26,6 +26,11 @@
         'views/jw_tracking_objeto_views.xml',
         'views/jw_tracking_objeto_menus.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'jw_tracking_objetos/static/src/css/jw_tracking_objeto.css',
+        ],
+    },
     'installable': True,
     'auto_install': False,
     'application': True,
