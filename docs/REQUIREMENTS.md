@@ -49,7 +49,7 @@ Se debe incorporar un módulo nuevo, independiente pero integrable con el anteri
 
 ## **3. Requerimientos no funcionales**
 
-- **Compatibilidad:** Odoo 17 (Enterprise o Community).  
+- **Compatibilidad:** Odoo 17 (Community).  
 - **Usabilidad:** Interfaz intuitiva, consistente con la apariencia nativa de Odoo.  
 - **Seguridad y permisos:**  
   - Control de acceso por grupos de usuario (por ejemplo, docentes, administración).  
