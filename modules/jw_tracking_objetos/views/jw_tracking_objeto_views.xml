@@ -35,9 +35,30 @@
                             <field name="documento_asociado" />
                         </group>
                     </group>
-                    <group name="fotografias" string="Fotografías">
-                        <field name="attachment_ids" widget="many2many_binary" nolabel="1" />
-                    </group>
+                    <notebook>
+                        <page string="Fotografías" name="fotografias">
+                            <field name="attachment_ids" widget="many2many_binary" class="oe_form_field_image" options="{'accepted_file_extensions': 'image/*,.pdf'}">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="name"/>
+                                    <field name="mimetype"/>
+                                    <field name="datas"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_global_click">
+                                                <div class="o_kanban_image">
+                                                    <img t-att-src="kanban_image('ir.attachment', 'datas', record.id.raw_value)" alt="Imagen" style="max-width: 100%; max-height: 200px;"/>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <strong><field name="name"/></strong>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
                     <group name="auditoria" string="Auditoría" collapsible="1">
                         <field name="fecha_creacion" />
                         <field name="usuario_creacion" />
