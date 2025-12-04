@@ -47,30 +47,30 @@ class JWTrackingObjeto(models.Model):
         string='Persona que Registra',
         default=lambda self: self.env.user.partner_id,
         help='Persona que registró el objeto',
-        track_visibility='onchange',
         domain=[('is_company', '=', False)]
     )
     
     fecha_registro = fields.Datetime(
         string='Fecha de Registro',
         default=fields.Datetime.now,
-        readonly=True,
-        track_visibility='onchange'
+        readonly=True
     )
     
     # Documento asociado
     documento_asociado = fields.Many2one(
         comodel_name='jw.documento',
         string='Documento Asociado',
-        help='Documento relacionado (acta, comprobante de entrega, etc.)',
-        track_visibility='onchange'
+        help='Documento relacionado (acta, comprobante de entrega, etc.)'
     )
     
     # Fotografías
-    attachment_ids = fields.One2many(
+    attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
-        compute='_compute_attachments',
-        string='Fotografías'
+        relation='jw_tracking_objeto_attachment_rel',
+        column1='tracking_id',
+        column2='attachment_id',
+        string='Fotografías',
+        help='Fotografías del objeto'
     )
     
     # Campos de auditoría
@@ -129,14 +129,6 @@ class JWTrackingObjeto(models.Model):
             if record.estado == 'entregado':
                 # Verificar que no se puede cambiar de entregado
                 pass  # Se valida solo al hacer transiciones desde otros estados
-    
-    def _compute_attachments(self):
-        """Calcular adjuntos relacionados"""
-        for record in self:
-            record.attachment_ids = self.env['ir.attachment'].search([
-                ('res_model', '=', 'jw.tracking.objeto'),
-                ('res_id', '=', record.id)
-            ])
     
     @api.model
     def get_objetos_por_estado(self, estado):

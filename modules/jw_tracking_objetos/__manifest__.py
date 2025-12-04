@@ -22,6 +22,7 @@
         'jw_documents_extension',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/jw_tracking_objeto_views.xml',
         'views/jw_tracking_objeto_menus.xml',
     ],
