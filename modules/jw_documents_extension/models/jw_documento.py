@@ -55,9 +55,9 @@ class JWDocumento(models.Model):
         help='Extensión del archivo (pdf, docx, jpg, etc.)'
     )
     
-    tamaño_archivo = fields.Integer(
+    tamano_archivo = fields.Integer(
         string='Tamaño (bytes)',
-        compute='_compute_tamaño_archivo',
+        compute='_compute_tamano_archivo',
         store=True
     )
     
@@ -111,17 +111,17 @@ class JWDocumento(models.Model):
                 record.tipo_archivo = ''
     
     @api.depends('archivo')
-    def _compute_tamaño_archivo(self):
+    def _compute_tamano_archivo(self):
         """Calcular tamaño del archivo"""
         for record in self:
             if record.archivo:
                 # El tamaño en bytes es la longitud del archivo en base64 decodificado
                 try:
-                    record.tamaño_archivo = len(base64.b64decode(record.archivo))
+                    record.tamano_archivo = len(base64.b64decode(record.archivo))
                 except:
-                    record.tamaño_archivo = 0
+                    record.tamano_archivo = 0
             else:
-                record.tamaño_archivo = 0
+                record.tamano_archivo = 0
     
     # Métodos de ciclo de vida
     def create(self, vals):
@@ -129,13 +129,24 @@ class JWDocumento(models.Model):
         record = super().create(vals)
         record.usuario_creacion = self.env.user.id
         record.fecha_creacion = fields.Datetime.now()
+        # Forzar recálculo de campos computados
+        if 'archivo' in vals:
+            record._compute_tamano_archivo()
+        if 'nombre_archivo' in vals:
+            record._compute_tipo_archivo()
         return record
     
     def write(self, vals):
         """Sobrescribir write para auditoría"""
         vals['fecha_modificacion'] = fields.Datetime.now()
         vals['usuario_modificacion'] = self.env.user.id
-        return super().write(vals)
+        result = super().write(vals)
+        # Forzar recálculo de campos computados
+        if 'archivo' in vals:
+            self._compute_tamano_archivo()
+        if 'nombre_archivo' in vals:
+            self._compute_tipo_archivo()
+        return result
     
     # Validaciones
     @api.constrains('archivo', 'nombre_archivo')
@@ -146,18 +157,18 @@ class JWDocumento(models.Model):
                 raise ValidationError('El documento debe incluir un archivo.')
     
     # Métodos de negocio
-    def get_documento_tamaño_legible(self):
+    def get_documento_tamano_legible(self):
         """Obtener tamaño del archivo en formato legible (KB, MB, etc.)"""
         for record in self:
-            tamaño = record.tamaño_archivo
-            if tamaño < 1024:
-                record.tamaño_legible = f'{tamaño} B'
-            elif tamaño < 1024 * 1024:
-                record.tamaño_legible = f'{tamaño / 1024:.2f} KB'
-            elif tamaño < 1024 * 1024 * 1024:
-                record.tamaño_legible = f'{tamaño / (1024 * 1024):.2f} MB'
+            tamano = record.tamano_archivo
+            if tamano < 1024:
+                record.tamano_legible = f'{tamano} B'
+            elif tamano < 1024 * 1024:
+                record.tamano_legible = f'{tamano / 1024:.2f} KB'
+            elif tamano < 1024 * 1024 * 1024:
+                record.tamano_legible = f'{tamano / (1024 * 1024):.2f} MB'
             else:
-                record.tamaño_legible = f'{tamaño / (1024 * 1024 * 1024):.2f} GB'
+                record.tamano_legible = f'{tamano / (1024 * 1024 * 1024):.2f} GB'
     
     @api.model
     def get_documentos_por_tipo(self, tipo):

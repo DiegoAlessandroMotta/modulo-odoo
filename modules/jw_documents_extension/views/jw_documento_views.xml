@@ -21,7 +21,7 @@
                             <field name="archivo" filename="nombre_archivo" widget="binary" />
                             <field name="nombre_archivo" />
                             <field name="tipo_archivo" readonly="1" />
-                            <field name="tamaño_archivo" readonly="1" />
+                            <field name="tamano_archivo" readonly="1" />
                         </group>
                     </group>
                     <group name="ubicacion_responsable" string="Ubicación y Responsable">
@@ -50,7 +50,7 @@
                 <field name="nombre" />
                 <field name="tipo_documento" />
                 <field name="tipo_archivo" />
-                <field name="tamaño_archivo" />
+                <field name="tamano_archivo" />
                 <field name="responsable_custodia" />
                 <field name="fecha_creacion" />
             </tree>
