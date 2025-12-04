@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Definir grupos de seguridad para el módulo -->
+    
+    <record id="group_jw_tracking_usuarios" model="res.groups">
+        <field name="name">Rastreadores</field>
+        <field name="comment">Usuarios que pueden registrar y gestionar objetos encontrados/perdidos</field>
+    </record>
+    
+    <record id="group_jw_tracking_administrador" model="res.groups">
+        <field name="name">Administradores de Tracking</field>
+        <field name="comment">Administradores con acceso completo al módulo de tracking</field>
+    </record>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_jw_tracking_objeto_user,jw.tracking.objeto user,jw_tracking_objetos.model_jw_tracking_objeto,jw_tracking_objetos.group_jw_tracking_usuarios,1,1,1,0
+access_jw_tracking_objeto_manager,jw.tracking.objeto manager,jw_tracking_objetos.model_jw_tracking_objeto,jw_tracking_objetos.group_jw_tracking_administrador,1,1,1,1

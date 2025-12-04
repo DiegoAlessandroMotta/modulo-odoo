@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de formulario para jw.tracking.objeto -->
+    <record id="view_jw_tracking_objeto_form" model="ir.ui.view">
+        <field name="name">jw.tracking.objeto.form</field>
+        <field name="model">jw.tracking.objeto</field>
+        <field name="arch" type="xml">
+            <form string="Tracking de Objeto">
+                <header>
+                    <button name="action_marcar_encontrado" string="Marcar como Encontrado"
+                        type="object" class="oe_highlight"
+                        attrs="{'invisible': [('estado', '!=', 'perdido')]}" />
+                    <button name="action_marcar_reclamado" string="Marcar como Reclamado"
+                        type="object" class="oe_highlight"
+                        attrs="{'invisible': [('estado', '!=', 'encontrado')]}" />
+                    <button name="action_marcar_entregado" string="Marcar como Entregado"
+                        type="object" class="oe_highlight"
+                        attrs="{'invisible': [('estado', 'not in', ['encontrado', 'reclamado'])]}" />
+                    <field name="estado" widget="statusbar" options="{'clickable': True}" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nombre" class="oe_inline" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="informacion_general" string="Información General">
+                            <field name="descripcion" />
+                            <field name="ubicacion_actual" />
+                            <field name="fecha_registro" />
+                        </group>
+                        <group name="responsables" string="Responsables">
+                            <field name="persona_registro" />
+                            <field name="documento_asociado" />
+                        </group>
+                    </group>
+                    <group name="fotografias" string="Fotografías">
+                        <field name="attachment_ids" nolabel="1">
+                            <tree>
+                                <field name="name" />
+                                <field name="type" />
+                                <field name="file_size" />
+                                <field name="create_date" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group name="auditoria" string="Auditoría" collapsible="1">
+                        <field name="fecha_creacion" />
+                        <field name="usuario_creacion" />
+                        <field name="fecha_modificacion" />
+                        <field name="usuario_modificacion" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de lista para jw.tracking.objeto -->
+    <record id="view_jw_tracking_objeto_tree" model="ir.ui.view">
+        <field name="name">jw.tracking.objeto.tree</field>
+        <field name="model">jw.tracking.objeto</field>
+        <field name="arch" type="xml">
+            <tree string="Objetos" decoration-danger="estado == 'perdido'" 
+                  decoration-warning="estado == 'encontrado'"
+                  decoration-success="estado == 'entregado'"
+                  decoration-info="estado == 'reclamado'">
+                <field name="nombre" />
+                <field name="estado" />
+                <field name="ubicacion_actual" />
+                <field name="persona_registro" />
+                <field name="fecha_registro" />
+                <field name="documento_asociado" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda para jw.tracking.objeto -->
+    <record id="view_jw_tracking_objeto_search" model="ir.ui.view">
+        <field name="name">jw.tracking.objeto.search</field>
+        <field name="model">jw.tracking.objeto</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Objetos">
+                <field name="nombre" string="Nombre" />
+                <field name="descripcion" />
+                <field name="ubicacion_actual" />
+                <field name="persona_registro" />
+                <separator />
+                <filter name="filter_perdido" string="Perdidos"
+                    domain="[('estado', '=', 'perdido')]" />
+                <filter name="filter_encontrado" string="Encontrados"
+                    domain="[('estado', '=', 'encontrado')]" />
+                <filter name="filter_reclamado" string="Reclamados"
+                    domain="[('estado', '=', 'reclamado')]" />
+                <filter name="filter_entregado" string="Entregados"
+                    domain="[('estado', '=', 'entregado')]" />
+                <separator />
+                <filter name="filter_hoy" string="Registrados Hoy"
+                    domain="[('fecha_registro', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]" />
+                <filter name="filter_esta_semana" string="Esta Semana"
+                    domain="[('fecha_registro', '&gt;=', (context_today() - relativedelta(days=7)).strftime('%Y-%m-%d 00:00:00'))]" />
+                <separator />
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_by_estado" string="Estado"
+                        context="{'group_by': 'estado'}" />
+                    <filter name="group_by_persona" string="Persona"
+                        context="{'group_by': 'persona_registro'}" />
+                    <filter name="group_by_fecha" string="Fecha"
+                        context="{'group_by': 'fecha_registro:month'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vista Kanban por estado -->
+    <record id="view_jw_tracking_objeto_kanban" model="ir.ui.view">
+        <field name="name">jw.tracking.objeto.kanban</field>
+        <field name="model">jw.tracking.objeto</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="estado" quick_create="False">
+                <field name="id" />
+                <field name="nombre" />
+                <field name="estado" />
+                <field name="persona_registro" />
+                <field name="fecha_registro" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <div class="oe_kanban_content">
+                                <h4>
+                                    <a type="open">
+                                        <t t-esc="record.nombre.value" />
+                                    </a>
+                                </h4>
+                                <p>
+                                    <strong>Registrado por:</strong>
+                                    <t t-esc="record.persona_registro.value" />
+                                </p>
+                                <p>
+                                    <strong>Fecha:</strong>
+                                    <t t-esc="record.fecha_registro.value" />
+                                </p>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>
