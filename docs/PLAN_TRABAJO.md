@@ -2,9 +2,9 @@
 
 ## **Fase 1: Preparación y Configuración del Entorno**
 
-- [ ] Configurar repositorio Git y estructura base del proyecto
-- [ ] Crear directorio de módulos: `jw_documents_extension` y `jw_tracking_objetos`
-- [ ] Inicializar archivos `__init__.py` y `__manifest__.py` para ambos módulos
+- [x] Configurar repositorio Git y estructura base del proyecto
+- [x] Crear directorio de módulos: `jw_documents_extension` y `jw_tracking_objetos`
+- [x] Inicializar archivos `__init__.py` y `__manifest__.py` para ambos módulos
 - [ ] Configurar entorno virtual y dependencias (Odoo 17, PostgreSQL)
 - [ ] Documentar estructura base del proyecto
 
@@ -14,32 +14,32 @@
 
 ### **2.1. Modelo de Datos**
 
-- [ ] Crear modelo heredado de `documents.document`
-- [ ] Agregar campos adicionales:
-  - [ ] `tipo_documento` (selection: administrativo, estudiantil, oficial, etc.)
-  - [ ] `ubicacion_fisica` (char: ubicación del archivo físico)
-  - [ ] `responsable_custodia` (many2one: res.partner)
+- [x] Crear modelo heredado de `documents.document`
+- [x] Agregar campos adicionales:
+  - [x] `tipo_documento` (selection: administrativo, estudiantil, oficial, etc.)
+  - [x] `ubicacion_fisica` (char: ubicación del archivo físico)
+  - [x] `responsable_custodia` (many2one: res.partner)
 - [ ] Definir validaciones y restricciones de negocio
 - [ ] Crear índices en base de datos para búsqueda optimizada
 
 ### **2.2. Vistas y Formularios**
 
-- [ ] Crear vista de formulario mejorada con los nuevos campos
-- [ ] Crear vista de lista con columnas relevantes (tipo, ubicación, responsable)
-- [ ] Implementar vista de búsqueda y filtrado avanzado
+- [x] Crear vista de formulario mejorada con los nuevos campos
+- [x] Crear vista de lista con columnas relevantes (tipo, ubicación, responsable)
+- [x] Implementar vista de búsqueda y filtrado avanzado
 - [ ] Agregar vista kanban (opcional, por estado o tipo)
 - [ ] Personalizar iconos y colores según tipo de documento
 
 ### **2.3. Funcionalidades Adicionales**
 
-- [ ] Implementar búsqueda por tipo de documento, ubicación o responsable
+- [x] Implementar búsqueda por tipo de documento, ubicación o responsable
 - [ ] Crear acciones de servidor para cambio de estado o responsable
-- [ ] Integrar con el chatter nativo para auditoría de cambios
+- [x] Integrar con el chatter nativo para auditoría de cambios
 - [ ] Configurar permisos de acceso (grupos de usuario)
 
 ### **2.4. Archivos de Seguridad**
 
-- [ ] Crear archivo `ir.model.access.csv` con permisos por grupo
+- [x] Crear archivo `ir.model.access.csv` con permisos por grupo
 
 ---
 
@@ -47,53 +47,53 @@
 
 ### **3.1. Modelo de Datos**
 
-- [ ] Crear modelo `jw.tracking.objeto` con campos:
-  - [ ] `nombre` (char: nombre del objeto)
-  - [ ] `descripcion` (text: descripción detallada)
-  - [ ] `estado` (selection: perdido, encontrado, reclamado, entregado)
-  - [ ] `ubicacion_actual` (char o many2one: ubicación física)
-  - [ ] `persona_registro` (many2one: res.partner)
-  - [ ] `fecha_registro` (datetime: automático)
-  - [ ] `documento_asociado` (many2one: documents.document - opcional)
-  - [ ] `fotos` (attachment: múltiples fotografías)
-- [ ] Definir flujos de estado (transiciones válidas)
-- [ ] Crear validaciones y reglas de negocio
+- [x] Crear modelo `jw.tracking.objeto` con campos:
+  - [x] `nombre` (char: nombre del objeto)
+  - [x] `descripcion` (text: descripción detallada)
+  - [x] `estado` (selection: perdido, encontrado, reclamado, entregado)
+  - [x] `ubicacion_actual` (char o many2one: ubicación física)
+  - [x] `persona_registro` (many2one: res.partner)
+  - [x] `fecha_registro` (datetime: automático)
+  - [x] `documento_asociado` (many2one: documents.document - opcional)
+  - [x] `fotos` (attachment: múltiples fotografías)
+- [x] Definir flujos de estado (transiciones válidas)
+- [x] Crear validaciones y reglas de negocio
 
 ### **3.2. Modelos Auxiliares**
 
-- [ ] Crear modelo `jw.tracking.objeto.foto` si es necesario para galería de imágenes
-- [ ] Crear modelo `jw.tracking.objeto.estado_log` para historial de cambios de estado
+- [x] Crear modelo `jw.tracking.objeto.foto` si es necesario para galería de imágenes
+- [x] Crear modelo `jw.tracking.objeto.estado_log` para historial de cambios de estado
 
 ### **3.3. Vistas y Formularios**
 
-- [ ] Crear formulario principal con pestañas:
-  - [ ] Información general
-  - [ ] Fotografías (galería)
-  - [ ] Documento asociado
-  - [ ] Historial de cambios (chatter)
-- [ ] Crear vista de lista con filtros por estado, fecha o responsable
-- [ ] Crear vista kanban por estado
-- [ ] Implementar vista de búsqueda avanzada
-- [ ] Personalizar colores y iconos por estado
+- [x] Crear formulario principal con pestañas:
+  - [x] Información general
+  - [x] Fotografías (galería)
+  - [x] Documento asociado
+  - [x] Historial de cambios (chatter)
+- [x] Crear vista de lista con filtros por estado, fecha o responsable
+- [x] Crear vista kanban por estado
+- [x] Implementar vista de búsqueda avanzada
+- [x] Personalizar colores y iconos por estado
 
 ### **3.4. Acciones y Menús**
 
-- [ ] Crear acciones de cambio de estado (perdido → encontrado → entregado, etc.)
-- [ ] Crear menú principal `jw_tracking_objetos` en el dashboard
-- [ ] Agregar submenús: "Objetos Perdidos", "Objetos Encontrados", "Todos"
-- [ ] Crear botones de acción en formulario (reclamar, entregar, etc.)
+- [x] Crear acciones de cambio de estado (perdido → encontrado → entregado, etc.)
+- [x] Crear menú principal `jw_tracking_objetos` en el dashboard
+- [x] Agregar submenús: "Objetos Perdidos", "Objetos Encontrados", "Todos"
+- [x] Crear botones de acción en formulario (reclamar, entregar, etc.)
 
 ### **3.5. Funcionalidades de Negocio**
 
-- [ ] Implementar notificaciones cuando un objeto es registrado
-- [ ] Registrar automáticamente usuario y fecha de cada cambio
-- [ ] Permitir asociación con documentos relacionados
+- [x] Implementar notificaciones cuando un objeto es registrado
+- [x] Registrar automáticamente usuario y fecha de cada cambio
+- [x] Permitir asociación con documentos relacionados
 - [ ] Crear reportes por estado, período o responsable (opcional)
 
 ### **3.6. Archivos de Seguridad**
 
-- [ ] Crear archivo `ir.model.access.csv` con permisos por grupo
-- [ ] Definir grupos: "Rastreadores", "Administradores"
+- [x] Crear archivo `ir.model.access.csv` con permisos por grupo
+- [x] Definir grupos: "Rastreadores", "Administradores"
 
 ---
 
@@ -109,11 +109,11 @@
 
 ## **Fase 5: Testing y Validación**
 
-- [ ] Escribir pruebas unitarias para modelos `jw_documents_extension`
+- [x] Escribir pruebas unitarias para modelos `jw_documents_extension`
 - [ ] Escribir pruebas unitarias para modelos `jw_tracking_objetos`
 - [ ] Realizar pruebas funcionales de crear/editar/eliminar registros
-- [ ] Validar búsquedas y filtrados funcionan correctamente
-- [ ] Probar permisos y accesos por grupo
+- [x] Validar búsquedas y filtrados funcionan correctamente
+- [x] Probar permisos y accesos por grupo
 - [ ] Verificar integridad de datos y transiciones de estado
 - [ ] Testing de adjuntos y galería de fotografías
 - [ ] Realizar pruebas de performance con datos grandes
