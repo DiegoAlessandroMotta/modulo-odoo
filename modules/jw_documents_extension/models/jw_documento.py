@@ -71,7 +71,6 @@ class JWDocumento(models.Model):
         comodel_name='res.partner',
         string='Responsable de Custodia',
         help='Persona responsable del resguardo del documento original',
-        track_visibility='onchange',
         domain=[('is_company', '=', False)]
     )
     

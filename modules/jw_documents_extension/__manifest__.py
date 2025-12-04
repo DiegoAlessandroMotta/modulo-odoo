@@ -19,6 +19,7 @@
         'base',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/jw_documento_views.xml',
         'views/jw_documento_menus.xml',
     ],
