@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Menús para el módulo jw_tracking_objetos -->
-    
-    <!-- Menú principal -->
     <menuitem id="menu_jw_tracking_root" name="Tracking de Objetos"
         web_icon="jw_tracking_objetos,static/description/icon.png" />
     
-    <!-- Submenú: Todos los objetos -->
     <record id="action_jw_tracking_objeto_view" model="ir.actions.act_window">
         <field name="name">Objetos</field>
         <field name="res_model">jw.tracking.objeto</field>
@@ -18,7 +14,6 @@
         parent="menu_jw_tracking_root" action="action_jw_tracking_objeto_view"
         sequence="10" />
     
-    <!-- Submenú: Objetos Perdidos -->
     <record id="action_jw_tracking_objeto_perdidos" model="ir.actions.act_window">
         <field name="name">Objetos Perdidos</field>
         <field name="res_model">jw.tracking.objeto</field>
@@ -31,7 +26,6 @@
         parent="menu_jw_tracking_root" action="action_jw_tracking_objeto_perdidos"
         sequence="20" />
     
-    <!-- Submenú: Objetos Encontrados -->
     <record id="action_jw_tracking_objeto_encontrados" model="ir.actions.act_window">
         <field name="name">Objetos Encontrados</field>
         <field name="res_model">jw.tracking.objeto</field>
@@ -44,7 +38,6 @@
         parent="menu_jw_tracking_root" action="action_jw_tracking_objeto_encontrados"
         sequence="30" />
     
-    <!-- Submenú: Objetos Reclamados -->
     <record id="action_jw_tracking_objeto_reclamados" model="ir.actions.act_window">
         <field name="name">Objetos Reclamados</field>
         <field name="res_model">jw.tracking.objeto</field>
@@ -57,7 +50,6 @@
         parent="menu_jw_tracking_root" action="action_jw_tracking_objeto_reclamados"
         sequence="40" />
     
-    <!-- Submenú: Objetos Entregados -->
     <record id="action_jw_tracking_objeto_entregados" model="ir.actions.act_window">
         <field name="name">Objetos Entregados</field>
         <field name="res_model">jw.tracking.objeto</field>

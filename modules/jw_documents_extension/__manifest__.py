@@ -2,16 +2,16 @@
     'name': 'JW Documents Extension',
     'version': '17.0.1.0.0',
     'category': 'Tools',
-    'summary': 'Extensión del módulo de documentos con campos adicionales y tracking físico',
+    'summary': 'Módulo para la gestión de documentos y tracking físico',
     'description': """
         Módulo de gestión documentaria institucional con funcionalidades:
-        
+
         - Gestión de archivos digitales con metadatos
         - Tipo de documento (administrativo, estudiantil, oficial, etc.)
         - Ubicación física del archivo original
         - Responsable de custodia
         - Control de acceso y auditoría
-        - Búsqueda y filtrado avanzado
+        - Búsqueda y filtrado
     """,
     'author': 'Colegio Jaime White',
     'license': 'LGPL-3',

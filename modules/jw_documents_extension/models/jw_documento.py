@@ -4,13 +4,10 @@ from odoo.exceptions import ValidationError
 
 
 class JWDocumento(models.Model):
-    """Modelo para gestión de documentos digitales institucionales"""
-    
     _name = 'jw.documento'
     _description = 'Documento Digital'
     _order = 'fecha_creacion desc'
     
-    # Tipos de documento
     DOCUMENTO_TYPE = [
         ('administrativo', 'Administrativo'),
         ('estudiantil', 'Estudiantil'),
@@ -18,7 +15,6 @@ class JWDocumento(models.Model):
         ('otro', 'Otro'),
     ]
     
-    # Campos básicos
     nombre = fields.Char(
         string='Nombre del Documento',
         required=True,
@@ -36,7 +32,6 @@ class JWDocumento(models.Model):
         help='Clasificación del documento'
     )
     
-    # Archivo binario
     archivo = fields.Binary(
         string='Archivo',
         required=True,
@@ -61,7 +56,6 @@ class JWDocumento(models.Model):
         store=True
     )
     
-    # Ubicación y responsable
     ubicacion_fisica = fields.Char(
         string='Ubicación Física',
         help='Ubicación del archivo o copia original del documento'
@@ -74,7 +68,6 @@ class JWDocumento(models.Model):
         domain=[('is_company', '=', False)]
     )
     
-    # Auditoría
     fecha_creacion = fields.Datetime(
         string='Fecha de Creación',
         default=fields.Datetime.now,
@@ -99,10 +92,8 @@ class JWDocumento(models.Model):
         readonly=True
     )
     
-    # Métodos computed
     @api.depends('nombre_archivo')
     def _compute_tipo_archivo(self):
-        """Calcular tipo de archivo desde la extensión"""
         for record in self:
             if record.nombre_archivo:
                 extensión = record.nombre_archivo.split('.')[-1] if '.' in record.nombre_archivo else 'desconocido'
@@ -112,10 +103,8 @@ class JWDocumento(models.Model):
     
     @api.depends('archivo')
     def _compute_tamano_archivo(self):
-        """Calcular tamaño del archivo"""
         for record in self:
             if record.archivo:
-                # El tamaño en bytes es la longitud del archivo en base64 decodificado
                 try:
                     record.tamano_archivo = len(base64.b64decode(record.archivo))
                 except:
@@ -123,13 +112,10 @@ class JWDocumento(models.Model):
             else:
                 record.tamano_archivo = 0
     
-    # Métodos de ciclo de vida
     def create(self, vals):
-        """Sobrescribir create para auditoría"""
         record = super().create(vals)
         record.usuario_creacion = self.env.user.id
         record.fecha_creacion = fields.Datetime.now()
-        # Forzar recálculo de campos computados
         if 'archivo' in vals:
             record._compute_tamano_archivo()
         if 'nombre_archivo' in vals:
@@ -137,28 +123,22 @@ class JWDocumento(models.Model):
         return record
     
     def write(self, vals):
-        """Sobrescribir write para auditoría"""
         vals['fecha_modificacion'] = fields.Datetime.now()
         vals['usuario_modificacion'] = self.env.user.id
         result = super().write(vals)
-        # Forzar recálculo de campos computados
         if 'archivo' in vals:
             self._compute_tamano_archivo()
         if 'nombre_archivo' in vals:
             self._compute_tipo_archivo()
         return result
     
-    # Validaciones
     @api.constrains('archivo', 'nombre_archivo')
     def _check_archivo_valido(self):
-        """Validar que el archivo no esté vacío"""
         for record in self:
             if not record.archivo:
                 raise ValidationError('El documento debe incluir un archivo.')
     
-    # Métodos de negocio
     def get_documento_tamano_legible(self):
-        """Obtener tamaño del archivo en formato legible (KB, MB, etc.)"""
         for record in self:
             tamano = record.tamano_archivo
             if tamano < 1024:
@@ -172,11 +152,8 @@ class JWDocumento(models.Model):
     
     @api.model
     def get_documentos_por_tipo(self, tipo):
-        """Obtener documentos filtrados por tipo"""
         return self.search([('tipo_documento', '=', tipo)])
     
     @api.model
     def get_documentos_por_responsable(self, responsable_id):
-        """Obtener documentos filtrados por responsable"""
         return self.search([('responsable_custodia', '=', responsable_id)])
-
